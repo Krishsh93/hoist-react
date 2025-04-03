@@ -692,12 +692,15 @@ export class Store extends HoistBase {
      * for backwards compat with app code predating support for multiple {@link summaryRecords}.
      */
     get summaryRecord(): StoreRecord {
-        throwIf(
-            this.summaryRecords.length > 1,
-            'Store has multiple summary records - must access via Store.summaryRecords.'
-        );
-        return first(this.summaryRecords);
+    if (!this.summaryRecords) {
+        return null;
     }
+    throwIf(
+        this.summaryRecords.length > 1,
+        'Store has multiple summary records - must access via Store.summaryRecords.'
+    );
+    return first(this.summaryRecords);
+}
 
     /** True if the store has changes which need to be committed. */
     @computed
